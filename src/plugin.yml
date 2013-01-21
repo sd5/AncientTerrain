@@ -1,0 +1,6 @@
+name: AncientTerrain
+version: 0.1
+description: Converts beta worlds to the new region format.
+author: sd5 (Shaun_das_Schaf)
+main: me.sd5.ancientterrain.ATMain
+load: STARTUP
