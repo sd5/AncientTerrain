@@ -26,7 +26,11 @@ public class ATGenerator extends ChunkGenerator {
 		
 		byte[][] result = new byte[world.getMaxHeight() / 16][4096];
 		
+		//Get the coordinates of the region this chunk is in.
+		int regionX = chunkX >> 5; //Or: floor(chunkX / 32.0)
+		int regionZ = chunkZ >> 5; //Or: floor(chunkZ / 32.0)
 		
+		Region region = new Region(world.getName(), regionX, regionZ);
 		
 		return result;
 		
