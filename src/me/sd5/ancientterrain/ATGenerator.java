@@ -3,7 +3,9 @@ package me.sd5.ancientterrain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -30,7 +32,14 @@ public class ATGenerator extends ChunkGenerator {
 		int regionX = chunkX >> 5; //Or: floor(chunkX / 32.0)
 		int regionZ = chunkZ >> 5; //Or: floor(chunkZ / 32.0)
 		
-		Region region = new Region(world.getName(), regionX, regionZ);
+		Region region = null;
+		
+		try {
+			 region = new Region(world.getName(), regionX, regionZ);
+		} catch (RegionNotFoundException e) {
+			Bukkit.getLogger().log(Level.SEVERE, "The chunk " + chunkX + "|" + chunkZ + " in region " + regionX + "|" + regionZ + " could not be created.");
+			return result;
+		}
 		
 		return result;
 		
