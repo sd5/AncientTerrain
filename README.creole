@@ -2,4 +2,4 @@
 You generate a beta world with MCEdit and put it into a folder on your server. If Bukkit is going to generate a chunk, AncientTerrain will read the data of the chunk from the region file and generate the terrain like it is in the beta world. If the needed chunk cannot be found in the region files of the beta world, AncientTerrain will generate an empty chunk just with air. A scheduler task will then check all the empty chunks after a specific time and if the chunk in the beta world exists now, it will regenerate the empty chunk using the new data.
 
 ==License
-No license yet :O
+GNU General Public License Version 3
