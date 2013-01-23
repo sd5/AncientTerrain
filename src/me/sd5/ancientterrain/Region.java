@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
 
+import org.jnbt.ByteArrayTag;
 import org.jnbt.CompoundTag;
 import org.jnbt.NBTInputStream;
 import org.jnbt.Tag;
@@ -61,7 +62,7 @@ public class Region {
 	 * @param chunkZ Relative chunk z-coordinate of the chunk.
 	 * @return A stream with the data of the chunk.
 	 */
-	public DataInputStream getChunkData(int chunkX, int chunkZ) throws ChunkNotFoundException {
+	private DataInputStream getChunkAsStream(int chunkX, int chunkZ) throws ChunkNotFoundException {
 		
 		int offset = offsets[chunkX + (chunkZ * 32)]; //Where to find the chunk data.
 		if(offset == 0) {
@@ -104,7 +105,7 @@ public class Region {
 	private Tag getTag(int chunkX, int chunkZ, String tagName) throws ChunkNotFoundException, TagNotFoundException {
 		try {
 			
-			DataInputStream chunkData = getChunkData(chunkX, chunkZ);
+			DataInputStream chunkData = getChunkAsStream(chunkX, chunkZ);
 			NBTInputStream nbtIs = new NBTInputStream(chunkData);
 			
 			CompoundTag rootTag = (CompoundTag) nbtIs.readTag();
@@ -123,6 +124,34 @@ public class Region {
 		} catch(IOException e) {
 			e.printStackTrace();
 		} return null;
+	}
+	
+	/**
+	 * Returns the blocks of this chunk.
+	 * @param chunkX: Relative chunk x-coordinate of the chunk.
+	 * @param chunkZ: Relative chunk x-coordinate of the chunk.
+	 * @return An array of bytes containing the material ID of each block.
+	 * @throws ChunkNotFoundException 
+	 */
+	public byte[] getBlocks(int chunkX, int chunkZ) throws ChunkNotFoundException {
+		
+		byte[] blocks = new byte[32768]; //16 * 16 * 128 = 32768
+		
+		int offset = offsets[chunkX + (chunkZ * 32)]; //Where to find the chunk data.
+		if(offset == 0) {
+			throw new ChunkNotFoundException();
+		}
+		
+		ByteArrayTag blocksTag = null;
+		try {
+			blocksTag = (ByteArrayTag) getTag(chunkX, chunkZ, "Blocks");
+		} catch (TagNotFoundException e) {
+			e.printStackTrace();
+		}
+		blocks = blocksTag.getValue();
+		
+		return blocks;
+		
 	}
 
 }
