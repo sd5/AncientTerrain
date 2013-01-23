@@ -6,8 +6,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
+
+import org.jnbt.CompoundTag;
+import org.jnbt.NBTInputStream;
+import org.jnbt.Tag;
 
 public class Region {
 
@@ -85,6 +90,39 @@ public class Region {
 		
 		return null;
 		
+	}
+	
+	/**
+	 * Reads a tag from the chunk data.
+	 * @param chunkX: Relative chunk x-coordinate of the chunk.
+	 * @param chunkZ: Relative chunk x-coordinate of the chunk.
+	 * @param tagName
+	 * @return: The tag of the chunk with the given name.
+	 * @throws ChunkNotFoundException: If the chunk at the given coordinates was not found.
+	 * @throws TagNotFoundException: If the tag with the given name was not found.
+	 */
+	private Tag getTag(int chunkX, int chunkZ, String tagName) throws ChunkNotFoundException, TagNotFoundException {
+		try {
+			
+			DataInputStream chunkData = getChunkData(chunkX, chunkZ);
+			NBTInputStream nbtIs = new NBTInputStream(chunkData);
+			
+			CompoundTag rootTag = (CompoundTag) nbtIs.readTag();
+			Map<String, Tag> rootMap = rootTag.getValue();
+			CompoundTag levelTag = (CompoundTag) rootMap.get("Level");
+			Map<String, Tag> levelMap = levelTag.getValue();
+			
+			Tag tag = levelMap.get(tagName);
+			
+			if(tag == null) {
+				throw new TagNotFoundException();
+			}
+			
+			return levelMap.get(tagName);
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		} return null;
 	}
 
 }
