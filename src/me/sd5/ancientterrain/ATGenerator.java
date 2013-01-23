@@ -36,8 +36,21 @@ public class ATGenerator extends ChunkGenerator {
 		
 		try {
 			 region = new Region(world.getName(), regionX, regionZ);
+			 
+			 byte[] blocks = region.getBlocks(chunkX, chunkZ);
+			 
+			 for(int x = 0; x < 16; x++) {
+				 for(int z = 0; z < 16; z++) {
+					 for(int y = 0; y < 128; y++) {
+						 setBlock(result, x, y, z, blocks[(y + (z * 128) + (x * 128 * 16))]);
+					 }
+				 }
+			 }
 		} catch (RegionNotFoundException e) {
-			Bukkit.getLogger().log(Level.SEVERE, "The chunk " + chunkX + "|" + chunkZ + " in region " + regionX + "|" + regionZ + " could not be created.");
+			Bukkit.getLogger().log(Level.SEVERE, "The region " + regionX + "|" + regionZ + " could not be found.");
+			return result;
+		} catch (ChunkNotFoundException e) {
+			Bukkit.getLogger().log(Level.SEVERE, "The region " + chunkX + "|" + chunkZ + " could not be found.");
 			return result;
 		}
 		
