@@ -35,7 +35,7 @@ public class Region {
 		try {
 			this.file = new RandomAccessFile(world + "_mcr" + File.separator + "region" + File.separator + "r." + regionX + "." + regionZ + ".mcr", "r");
 		} catch (FileNotFoundException e) {
-			throw new RegionNotFoundException();
+			throw new RegionNotFoundException(world, regionX, regionZ);
 		}
 			
 		try {
@@ -66,7 +66,7 @@ public class Region {
 		
 		int offset = offsets[chunkX + (chunkZ * 32)]; //Where to find the chunk data.
 		if(offset == 0) {
-			throw new ChunkNotFoundException();
+			throw new ChunkNotFoundException(world, chunkX, chunkZ);
 		}
 		
 		try {
@@ -139,7 +139,7 @@ public class Region {
 		
 		int offset = offsets[chunkX + (chunkZ * 32)]; //Where to find the chunk data.
 		if(offset == 0) {
-			throw new ChunkNotFoundException();
+			throw new ChunkNotFoundException(world, chunkX, chunkZ);
 		}
 		
 		ByteArrayTag blocksTag = null;
@@ -173,6 +173,36 @@ public class Region {
 		coordinates[1] = z;
 		
 		return coordinates;
+		
+	}
+	
+	/**
+	 * 
+	 * @return: The world this region is in.
+	 */
+	public String getWorld() {
+		
+		return world;
+		
+	}
+	
+	/**
+	 * 
+	 * @return: The x-coordinate this region is at.
+	 */
+	public int getX() {
+		
+		return regionX;
+		
+	}
+	
+	/**
+	 * 
+	 * @return: The z-coordinate this region is at.
+	 */
+	public int getZ() {
+		
+		return regionZ;
 		
 	}
 

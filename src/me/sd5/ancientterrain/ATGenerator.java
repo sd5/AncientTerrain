@@ -51,10 +51,10 @@ public class ATGenerator extends ChunkGenerator {
 				 }
 			 }
 		} catch (RegionNotFoundException e) {
-			Bukkit.getLogger().log(Level.SEVERE, "The region " + regionX + "|" + regionZ + " could not be found.");
+			Bukkit.getLogger().log(Level.SEVERE, "The region " + e.getRegionX() + "|" + e.getRegionZ() + " could not be found.");
 			return result;
 		} catch (ChunkNotFoundException e) {
-			Bukkit.getLogger().log(Level.SEVERE, "The chunk " + chunkX + "|" + chunkZ + " could not be found.");
+			Bukkit.getLogger().log(Level.SEVERE, "The chunk " + e.getChunkX() + "|" + e.getChunkZ() + " could not be found.");
 			return result;
 		}
 		
