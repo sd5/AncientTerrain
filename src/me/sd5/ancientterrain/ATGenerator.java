@@ -37,7 +37,9 @@ public class ATGenerator extends ChunkGenerator {
 		try {
 			 region = new Region(world.getName(), regionX, regionZ);
 			 
-			 byte[] blocks = region.getBlocks(chunkX, chunkZ);
+			 //Calculate region relative chunk coordinates.
+			 int[] coordinates = Region.getRelativeChunkCoordinates(chunkX, chunkZ);
+			 byte[] blocks = region.getBlocks(coordinates[0], coordinates[1]);
 			 
 			 for(int x = 0; x < 16; x++) {
 				 for(int z = 0; z < 16; z++) {

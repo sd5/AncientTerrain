@@ -153,5 +153,27 @@ public class Region {
 		return blocks;
 		
 	}
+	
+	/**
+	 * Calculates the region relative coordinates of a chunk out of the absolute chunk coodinates.
+	 * @param chunkX: Absolute chunk x-coordinate.
+	 * @param chunkZ: Absolute chunk z-coordinate.
+	 * @return: An array with two integers. First is x-coordinate, second is z-coordinate.
+	 */
+	public static int[] getRelativeChunkCoordinates(int chunkX, int chunkZ) {
+		
+		int[] coordinates = new int[2];
+		
+		int x = (chunkX >= 0) ? (chunkX % 32) : 32 - (-chunkX % 32);
+			x = (x == 32) ? 0 : x;
+		int z = (chunkZ >= 0) ? (chunkZ % 32) : 32 - (-chunkZ % 32);
+			z = (z == 32) ? 0: z;
+			
+		coordinates[0] = x;
+		coordinates[1] = z;
+		
+		return coordinates;
+		
+	}
 
 }
