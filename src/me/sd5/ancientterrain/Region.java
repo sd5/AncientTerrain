@@ -33,7 +33,7 @@ public class Region {
 		this.regionZ = regionZ;
 		
 		try {
-			this.file = new RandomAccessFile(world + File.separator, "rw");
+			this.file = new RandomAccessFile(world + "_mcr" + File.separator + "region" + File.separator + "r." + regionX + "." + regionZ + ".mcr", "rw");
 		} catch (FileNotFoundException e) {
 			throw new RegionNotFoundException();
 		}
