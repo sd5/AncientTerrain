@@ -32,6 +32,8 @@ public class ATGenerator extends ChunkGenerator {
 		int regionX = chunkX >> 5; //Or: floor(chunkX / 32.0)
 		int regionZ = chunkZ >> 5; //Or: floor(chunkZ / 32.0)
 		
+		Bukkit.getLogger().log(Level.INFO, "Generating chunk " + chunkX + "|" + chunkZ + " in region " + regionX + "|" + regionZ);
+		
 		Region region = null;
 		
 		try {
