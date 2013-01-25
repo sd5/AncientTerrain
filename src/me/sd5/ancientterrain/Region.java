@@ -155,6 +155,49 @@ public class Region {
 	}
 	
 	/**
+	 * Returns the data values of the blocks in this chunk.
+	 * @param chunkX: Relative chunk x-coordinate of the chunk.
+	 * @param chunkZ: Relative chunk x-coordinate of the chunk.
+	 * @return An array of bytes containing the data values of each block.
+	 * @throws ChunkNotFoundException
+	 */
+	public byte[] getData(int chunkX, int chunkZ) throws ChunkNotFoundException {
+		
+		//1 byte for 1 nibble.
+		byte[] data = new byte[32768]; //16 * 16 * 128 = 32768
+		
+		//1 byte for 2 nibble.
+		byte[] compressedData = new byte[16384]; //16 * 16 * 128 / 2 = 16384
+		try {
+			compressedData = ((ByteArrayTag) getTag(chunkX, chunkZ, "Data")).getValue();
+		} catch (TagNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		for(int x = 0; x < 16; x++) {
+			for(int z = 0; z < 16; z++) {
+				for(int y = 0; y < 128; y++) {
+					int offset = (y + z * 128 + x * 128 * 16) / 2; //Get the offset of the byte where the nibble is in.
+					
+					int part = y % 2; //Check whether we need the first or the second part of the byte.
+					
+					byte nibble;
+					if(part == 1) {
+						nibble = (byte) (compressedData[offset] >> 4 & 0xF); //Get the first part of the byte ---> first nibble.
+					} else {
+						nibble = (byte) (compressedData[offset] & 0xF); //Get the second part of the byte ---> second nibble.
+					}
+					
+					data[y + z * 128 + x * 128 * 16] = nibble;
+				}
+			}
+		}
+		
+		return data;
+		
+	}
+	
+	/**
 	 * Calculates the region relative coordinates of a chunk out of the absolute chunk coodinates.
 	 * @param chunkX: Absolute chunk x-coordinate.
 	 * @param chunkZ: Absolute chunk z-coordinate.
