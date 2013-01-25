@@ -188,7 +188,7 @@ public class Region {
 						nibble = (byte) (compressedData[offset] & 0xF); //Get the second part of the byte ---> second nibble.
 					}
 					
-					data[y + z * 128 + x * 128 * 16] = nibble;
+					data[(y + (z * 128) + (x * 128 * 16))] = nibble;
 				}
 			}
 		}

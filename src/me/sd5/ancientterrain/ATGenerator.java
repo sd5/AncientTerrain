@@ -17,7 +17,7 @@ public class ATGenerator extends ChunkGenerator {
 		
 		ArrayList<BlockPopulator> populators = new ArrayList<BlockPopulator>();
 		
-		
+		populators.add(new ATDataPopulator());
 		
 		return populators;
 		
