@@ -5,6 +5,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
@@ -32,7 +33,8 @@ public class ATDataPopulator extends BlockPopulator {
 						 byte dataByte = data[(y + (z * 128) + (x * 128 * 16))];
 						 
 						 if(dataByte != 0) {
-							 chunk.getBlock(x, y, z).setData(dataByte);
+							 //chunk.getBlock(x, y, z).setData(dataByte);
+							 chunk.getBlock(x, y, z).setType(Material.GOLD_BLOCK);
 						 }
 					 }
 				 }
